@@ -155,7 +155,8 @@ if __name__ == '__main__':
         }
 
         # More important to catch bad reviews so that they can be addressed
-        scorer = make_scorer(fbeta_score, beta = 2)
+        beta = 2
+        scorer = make_scorer(fbeta_score, beta = beta)
 
         grid = GridSearchCV(tfidf_class_pipe, params, scoring = scorer, verbose = 2)
         logger.info('Performing grid search')
@@ -168,7 +169,7 @@ if __name__ == '__main__':
         val_report = classification_report(y_val, val_preds)
 
         val_report['fbeta_score'] = {'beta': beta,
-                                     'score': fbeta_score(y_val, val_preds, beta = 2)}
+                                     'score': fbeta_score(y_val, val_preds, beta = beta)}
 
         # Collect feature importances if available          
         feat_imp = None
